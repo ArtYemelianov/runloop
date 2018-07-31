@@ -1,6 +1,5 @@
 package com.launchmode.artus.runlooptest
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ class InfoFragment: Fragment() {
 
 
     override fun onCreateView(aInflater: LayoutInflater, aContainer: ViewGroup?, aSavedInstanceState: Bundle?): View? {
-        val view: View = aInflater.inflate(R.layout.info_layout, aContainer, false)
-        return view
+        return aInflater.inflate(R.layout.info_layout, aContainer, false)
     }
 }
