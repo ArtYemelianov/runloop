@@ -25,13 +25,7 @@ class InfoFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        infoViewModel.getDate().observe(this, Observer<String> {
-            infoViewModel.date.set(it)
-        })
-
-        infoViewModel.getSelectedItem().observe(this, Observer<String> {
-            infoViewModel.selectedItem.set(it)
-        })
+        infoViewModel.subscribe(this)
     }
 
 }

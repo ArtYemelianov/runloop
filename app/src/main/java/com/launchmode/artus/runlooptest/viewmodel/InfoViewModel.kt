@@ -4,7 +4,7 @@ import android.arch.lifecycle.*
 import android.databinding.ObservableField
 import com.launchmode.artus.runlooptest.model.InfoModel
 
-class InfoViewModel : ViewModel(){
+class InfoViewModel : ViewModel() {
 
     var name: ObservableField<String> = ObservableField()
     var date: ObservableField<String> = ObservableField()
@@ -16,12 +16,17 @@ class InfoViewModel : ViewModel(){
         name.set(model.name)
     }
 
+    /**
+     * Subscribes observers
+     */
+    fun subscribe(lifecycle: LifecycleOwner) {
+        model.date.observe(lifecycle, Observer<String> {
+            date.set(it)
+        })
 
-    fun getDate(): LiveData<String> {
-        return model.date
+        model.selectedItem.observe(lifecycle, Observer<String> {
+            selectedItem.set(it)
+        })
     }
 
-    fun getSelectedItem(): LiveData<String> {
-        return model.selectedItem
-    }
 }

@@ -1,0 +1,112 @@
+/*
+ * Copyright (c) 2018 Phunware Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+package com.launchmode.artus.runlooptest.adapter;
+
+import android.databinding.DataBindingUtil;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+
+import com.launchmode.artus.runlooptest.R;
+import com.launchmode.artus.runlooptest.databinding.ListItemBinding;
+import com.launchmode.artus.runlooptest.model.RssEntry;
+import com.launchmode.artus.runlooptest.viewmodel.RssItemViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Recycle view adapter
+ */
+public class RssAdapter extends RecyclerView.Adapter<RssAdapter.RssViewHolder> {
+    private List<RssEntry> data;
+
+    public RssAdapter() {
+        this.data = new ArrayList<>();
+    }
+
+    @Override
+    public RssViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item,
+                new FrameLayout(parent.getContext()), false);
+        return new RssViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(RssViewHolder holder, int position) {
+        RssEntry item = data.get(position);
+        holder.setViewModel(new RssItemViewModel(item));
+    }
+
+    @Override
+    public int getItemCount() {
+        return this.data.size();
+    }
+
+    @Override
+    public void onViewAttachedToWindow(RssViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        holder.bind();
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(RssViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        holder.unbind();
+    }
+
+    public void updateData(@Nullable List<RssEntry> data) {
+        this.data.clear();
+        this.data.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    /* package */ static class RssViewHolder extends RecyclerView.ViewHolder {
+        /* package */ ListItemBinding binding;
+
+        /* package */ RssViewHolder(View itemView) {
+            super(itemView);
+            bind();
+        }
+
+        /* package */ void bind() {
+            if (binding == null) {
+                binding = DataBindingUtil.bind(itemView);
+            }
+        }
+
+        /* package */ void unbind() {
+            if (binding != null) {
+                binding.unbind(); // Don't forget to unbind
+            }
+        }
+
+        /* package */ void setViewModel(RssItemViewModel viewModel) {
+            if (binding != null) {
+                binding.setViewModel(viewModel);
+            }
+        }
+    }
+}

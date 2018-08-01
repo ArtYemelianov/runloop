@@ -1,50 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/tabhost"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="rssViewModel"
+            type="com.launchmode.artus.runlooptest.viewmodel.RssViewModel" />
+    </data>
+
+    <TabHost
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@android:id/tabhost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:currentTab="@={rssViewModel.currentTab}"
+        android:onTabChanged="@{(id) -> rssViewModel.onTabChanged(id)}"
+        android:layout_height="match_parent">
 
-        <TabWidget
-            android:id="@android:id/tabs"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible">
-
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@android:id/tabcontent"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <ListView
-                android:id="@+id/list_1"
+            <TabWidget
+                android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom" />
 
-            <ListView
-                android:id="@+id/list_2"
+            <FrameLayout
+                android:id="@+id/progress_bar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:visibility="@{rssViewModel.isLoading ? View.VISIBLE: View.GONE }">
 
-        </FrameLayout>
-    </LinearLayout>
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center" />
 
-</TabHost>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_1"
+                    app:adapter="@{rssViewModel.bussinesNewsAdapter}"
+                    app:data="@{rssViewModel.bussinesNewsData}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_2"
+                    app:adapter="@{rssViewModel.otherNewsAdapter}"
+                    app:data="@{rssViewModel.otherNewsData}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+        </LinearLayout>
+
+    </TabHost>
+</layout>
