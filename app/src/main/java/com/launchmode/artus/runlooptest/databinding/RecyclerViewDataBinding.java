@@ -25,7 +25,7 @@ import android.databinding.BindingAdapter;
 import android.support.v7.widget.RecyclerView;
 
 
-import com.launchmode.artus.runlooptest.adapter.RssAdapter;
+import com.launchmode.artus.runlooptest.view.RssAdapter;
 import com.launchmode.artus.runlooptest.model.RssEntry;
 
 import java.util.List;

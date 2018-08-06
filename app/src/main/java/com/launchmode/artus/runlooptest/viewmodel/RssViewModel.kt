@@ -7,7 +7,7 @@ import android.arch.lifecycle.Observer
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
-import com.launchmode.artus.runlooptest.adapter.RssAdapter
+import com.launchmode.artus.runlooptest.view.RssAdapter
 import com.launchmode.artus.runlooptest.model.RssEntry
 import com.launchmode.artus.runlooptest.model.RssModel
 
@@ -37,7 +37,7 @@ class RssViewModel(application: Application): AndroidViewModel(application) {
      */
     fun subscribe(lifecycleOwner: LifecycleOwner) {
 
-        model.bussinesNews.observe(lifecycleOwner, Observer<ArrayList<RssEntry>> {
+        model.bussinesNews.observe(lifecycleOwner, Observer<List<RssEntry>> {
             bussinesNewsAdapter.get()?.updateData(it)
 //            bussinesNews.get()?.clear()
 //            bussinesNews.get()?.addAll(it!!)
