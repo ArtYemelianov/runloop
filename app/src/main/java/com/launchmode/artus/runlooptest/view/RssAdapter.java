@@ -83,27 +83,27 @@ public class RssAdapter extends RecyclerView.Adapter<RssAdapter.RssViewHolder> {
         notifyDataSetChanged();
     }
 
-    /* package */ static class RssViewHolder extends RecyclerView.ViewHolder {
-        /* package */ ListItemBinding binding;
+    static class RssViewHolder extends RecyclerView.ViewHolder {
+        ListItemBinding binding;
 
-        /* package */ RssViewHolder(View itemView) {
+        RssViewHolder(View itemView) {
             super(itemView);
             bind();
         }
 
-        /* package */ void bind() {
+        void bind() {
             if (binding == null) {
                 binding = DataBindingUtil.bind(itemView);
             }
         }
 
-        /* package */ void unbind() {
+        void unbind() {
             if (binding != null) {
                 binding.unbind(); // Don't forget to unbind
             }
         }
 
-        /* package */ void setViewModel(RssItemViewModel viewModel) {
+        void setViewModel(RssItemViewModel viewModel) {
             if (binding != null) {
                 binding.setViewModel(viewModel);
             }

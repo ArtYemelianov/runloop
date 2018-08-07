@@ -7,6 +7,7 @@ import android.arch.lifecycle.Observer
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
+import com.launchmode.artus.runlooptest.App
 import com.launchmode.artus.runlooptest.view.RssAdapter
 import com.launchmode.artus.runlooptest.model.RssEntry
 import com.launchmode.artus.runlooptest.model.RssModel
@@ -14,21 +15,15 @@ import com.launchmode.artus.runlooptest.model.RssModel
 class RssViewModel(application: Application): AndroidViewModel(application) {
 
     var currentTab : ObservableInt = ObservableInt()
-    var bussinesNewsAdapter: ObservableField<RssAdapter> = ObservableField()
-    var bussinesNewsData: ObservableField<List<RssEntry>> = ObservableField()
+    var businesNewsAdapter: ObservableField<RssAdapter> = ObservableField()
     var otherNewsAdapter: ObservableField<RssAdapter> = ObservableField()
-    var otherNewsData: ObservableField<List<RssEntry>> = ObservableField()
     var isLoading: ObservableBoolean = ObservableBoolean()
 
-    val model =  RssModel()
+    val model =  RssModel(application as App)
     init {
         currentTab.set(0)
-
-        bussinesNewsAdapter.set(RssAdapter())
-        bussinesNewsData.set(arrayListOf(RssEntry("One", "Description", "Empty")))
-
+        businesNewsAdapter.set(RssAdapter())
         otherNewsAdapter.set(RssAdapter())
-        otherNewsData.set(arrayListOf(RssEntry("Twp", "Description", "Empty")))
 
     }
 
@@ -37,11 +32,13 @@ class RssViewModel(application: Application): AndroidViewModel(application) {
      */
     fun subscribe(lifecycleOwner: LifecycleOwner) {
 
+
         model.bussinesNews.observe(lifecycleOwner, Observer<List<RssEntry>> {
-            bussinesNewsAdapter.get()?.updateData(it)
-//            bussinesNews.get()?.clear()
-//            bussinesNews.get()?.addAll(it!!)
-//            bussinesNews.get()?.notifyDataSetChanged()
+            businesNewsAdapter.get()?.updateData(it)
+        })
+
+        model.otherNews.observe(lifecycleOwner, Observer<List<RssEntry>> {
+            otherNewsAdapter.get()?.updateData(it)
         })
 
         model.isLoading.observe(lifecycleOwner, Observer<Boolean> {
@@ -51,5 +48,10 @@ class RssViewModel(application: Application): AndroidViewModel(application) {
 
     fun onTabChanged(id: String){
         print("Tab changed, value: " +currentTab.get() )
+    }
+
+    override fun onCleared() {
+        model.clear()
+
     }
 }

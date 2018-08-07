@@ -49,8 +49,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/list_1"
-                    app:adapter="@{rssViewModel.bussinesNewsAdapter}"
-                    app:data="@{rssViewModel.bussinesNewsData}"
+                    app:adapter="@{rssViewModel.businesNewsAdapter}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     />
@@ -58,7 +57,6 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/list_2"
                     app:adapter="@{rssViewModel.otherNewsAdapter}"
-                    app:data="@{rssViewModel.otherNewsData}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 

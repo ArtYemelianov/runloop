@@ -1,6 +1,5 @@
 package com.launchmode.artus.runlooptest.view
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import com.launchmode.artus.runlooptest.R
 import com.launchmode.artus.runlooptest.databinding.InfoLayoutBinding
 import com.launchmode.artus.runlooptest.viewmodel.InfoViewModel
-import kotlin.jvm.java
 
 class InfoFragment: Fragment() {
 

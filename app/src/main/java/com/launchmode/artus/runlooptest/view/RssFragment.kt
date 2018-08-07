@@ -15,14 +15,16 @@ import com.launchmode.artus.runlooptest.databinding.RssLayoutBinding
 import com.launchmode.artus.runlooptest.viewmodel.RssViewModel
 import kotlinx.android.synthetic.main.rss_layout.*
 
-
+/**
+ * Fragment presents displaying rss info
+ */
 class RssFragment : Fragment() {
 
-    lateinit var rssViewModel: RssViewModel
+    private lateinit var rssViewModel: RssViewModel
 
     override fun onCreateView(aInflater: LayoutInflater, aContainer: ViewGroup?, aSavedInstanceState: Bundle?): View? {
-        var binding = DataBindingUtil.inflate<RssLayoutBinding>( aInflater, R.layout.rss_layout, aContainer, false)
-        rssViewModel= ViewModelProviders.of(this).get(RssViewModel::class.java!!)
+        var binding = DataBindingUtil.inflate<RssLayoutBinding>(aInflater, R.layout.rss_layout, aContainer, false)
+        rssViewModel = ViewModelProviders.of(this).get(RssViewModel::class.java!!)
         binding.rssViewModel = rssViewModel
         return binding.root
     }
@@ -53,7 +55,7 @@ class RssFragment : Fragment() {
     /**
      * Initializes recycle view
      */
-    private fun initRecycleView(recycleView: RecyclerView){
+    private fun initRecycleView(recycleView: RecyclerView) {
         recycleView.setHasFixedSize(true)
         val llm = LinearLayoutManager(context)
         recycleView.layoutManager = llm

@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,19 +34,18 @@ import java.util.regex.Pattern;
  * Created by Marco Gomiero on 12/02/2015.
  */
 
-public class XMLParser extends Observable {
+public class XMLParser{
 
-    private ArrayList<Article> articles;
-    private Article currentArticle;
 
     public XMLParser() {
-        articles = new ArrayList<>();
-        currentArticle = new Article();
+        //do nothing
     }
 
-    public void parseXML(String xml) throws XmlPullParserException, IOException {
+    public List<Article> parseXML(String xml) throws XmlPullParserException, IOException {
 
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+        List<Article> articles = new ArrayList();
+        Article currentArticle = new Article();
 
         factory.setNamespaceAware(false);
         XmlPullParser xmlPullParser = factory.newPullParser();
@@ -120,14 +120,10 @@ public class XMLParser extends Observable {
             }
             eventType = xmlPullParser.next();
         }
-        triggerObserver();
+        return articles;
     }
 
 
-    private void triggerObserver() {
-        setChanged();
-        notifyObservers(articles);
-    }
 
     /**
      * Finds the first img tag and get the src as featured image
