@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * Created by Marco Gomiero on 12/02/2015.
  */
 
-public class XMLParser{
+public class XMLParser {
 
 
     public XMLParser() {
@@ -93,6 +93,7 @@ public class XMLParser{
                 } else if (xmlPullParser.getName().equalsIgnoreCase("description")) {
                     if (insideItem) {
                         String description = xmlPullParser.nextText();
+                        description = parseDescription(description);
                         if (currentArticle.getImage() == null) {
                             currentArticle.setImage(getImageUrl(description));
                         }
@@ -123,6 +124,19 @@ public class XMLParser{
         return articles;
     }
 
+    private String parseDescription(String xml) throws XmlPullParserException {
+        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+        factory.setNamespaceAware(false);
+        XmlPullParser xmlPullParser = factory.newPullParser();
+        xmlPullParser.setInput(new StringReader(xml));
+        try {
+            xmlPullParser.next();
+        } catch (XmlPullParserException e) {
+        } catch (IOException e) {
+        }
+        return xmlPullParser.getText();
+
+    }
 
 
     /**

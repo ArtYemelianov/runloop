@@ -56,7 +56,7 @@ abstract class RepeatTimer(val cycleDelegate: TaskCycleCallback?) {
 
     fun destroy() {
         stop()
-        scheduler.shutdownNow()
+//        scheduler.shutdownNow()
     }
 
 
