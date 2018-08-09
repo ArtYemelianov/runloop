@@ -7,19 +7,19 @@ import android.arch.lifecycle.Observer
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
-import com.launchmode.artus.runlooptest.App
-import com.launchmode.artus.runlooptest.view.RssAdapter
 import com.launchmode.artus.runlooptest.model.RssEntry
 import com.launchmode.artus.runlooptest.model.RssModel
+import com.launchmode.artus.runlooptest.view.RssAdapter
 
-class RssViewModel(application: Application): AndroidViewModel(application) {
+class RssViewModel(application: Application) : AndroidViewModel(application) {
 
-    var currentTab : ObservableInt = ObservableInt()
+    var currentTab: ObservableInt = ObservableInt()
     var businesNewsAdapter: ObservableField<RssAdapter> = ObservableField()
     var otherNewsAdapter: ObservableField<RssAdapter> = ObservableField()
     var isLoading: ObservableBoolean = ObservableBoolean()
 
-    val model =  RssModel(application as App)
+    val model = RssModel(getApplication())
+
     init {
         currentTab.set(0)
         businesNewsAdapter.set(RssAdapter())
@@ -31,7 +31,6 @@ class RssViewModel(application: Application): AndroidViewModel(application) {
      * Subscribes observes
      */
     fun subscribe(lifecycleOwner: LifecycleOwner) {
-
 
         model.bussinesNews.observe(lifecycleOwner, Observer<List<RssEntry>> {
             businesNewsAdapter.get()?.updateData(it)
@@ -46,8 +45,8 @@ class RssViewModel(application: Application): AndroidViewModel(application) {
         })
     }
 
-    fun onTabChanged(id: String){
-        print("Tab changed, value: " +currentTab.get() )
+    fun onTabChanged(id: String) {
+        print("Tab changed, value: " + currentTab.get())
     }
 
     override fun onCleared() {

@@ -1,6 +1,8 @@
 package com.launchmode.artus.runlooptest.view
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -12,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.launchmode.artus.runlooptest.R
 import com.launchmode.artus.runlooptest.databinding.RssLayoutBinding
+import com.launchmode.artus.runlooptest.model.RssEntry
 import com.launchmode.artus.runlooptest.viewmodel.RssViewModel
 import kotlinx.android.synthetic.main.rss_layout.*
 
@@ -32,6 +35,14 @@ class RssFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         initViews()
         rssViewModel.subscribe(this)
+
+        val callback: Observer<RssEntry> = Observer {
+            val intent = Intent(activity, RssDetailActivity::class.java)
+            intent.putExtra("entry", it!!)
+            activity.startActivity(intent)
+        }
+        rssViewModel.businesNewsAdapter.get()!!.clicked.observe(activity, callback)
+        rssViewModel.otherNewsAdapter.get()!!.clicked.observe(activity, callback)
     }
 
 

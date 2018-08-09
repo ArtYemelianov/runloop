@@ -8,6 +8,7 @@ import com.launchmode.artus.runlooptest.model.RssEntry
 class RssItemViewModel(data: RssEntry) : ViewModel() {
 
     var rssData: ObservableField<RssEntry> = ObservableField()
+    var clicked: ObservableField<Void> = ObservableField()
 
     init {
         rssData.set(data)
@@ -19,6 +20,8 @@ class RssItemViewModel(data: RssEntry) : ViewModel() {
     var date: String = rssData.get()?.date ?: "Date"
 
     fun onItemClick(view: View) {
-        // do start a new activity
+        print("Clicked")
+        clicked.notifyChange()
     }
+
 }

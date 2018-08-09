@@ -21,7 +21,11 @@
  */
 package com.launchmode.artus.runlooptest.view;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.databinding.DataBindingUtil;
+import android.databinding.Observable;
+import android.databinding.ObservableField;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,6 +46,7 @@ import java.util.List;
  */
 public class RssAdapter extends RecyclerView.Adapter<RssAdapter.RssViewHolder> {
     private List<RssEntry> data;
+    public MutableLiveData<RssEntry> clicked = new MutableLiveData<>();
 
     public RssAdapter() {
         this.data = new ArrayList<>();
@@ -56,8 +61,15 @@ public class RssAdapter extends RecyclerView.Adapter<RssAdapter.RssViewHolder> {
 
     @Override
     public void onBindViewHolder(RssViewHolder holder, int position) {
-        RssEntry item = data.get(position);
-        holder.setViewModel(new RssItemViewModel(item));
+        final RssEntry item = data.get(position);
+        RssItemViewModel viewModel = new RssItemViewModel(item);
+        viewModel.getClicked().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                clicked.setValue(item);
+            }
+        });
+        holder.setViewModel(viewModel);
     }
 
     @Override
