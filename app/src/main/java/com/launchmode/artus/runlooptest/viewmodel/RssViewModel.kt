@@ -51,6 +51,5 @@ class RssViewModel(application: Application) : AndroidViewModel(application) {
 
     override fun onCleared() {
         model.clear()
-
     }
 }

@@ -13,4 +13,9 @@ class InfoViewModel : ViewModel() {
     init {
         name.set(model.name)
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        model.destroy()
+    }
 }
