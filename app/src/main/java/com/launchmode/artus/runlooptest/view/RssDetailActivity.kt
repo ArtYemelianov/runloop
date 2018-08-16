@@ -1,5 +1,6 @@
 package com.launchmode.artus.runlooptest.view
 
+import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -8,6 +9,7 @@ import com.launchmode.artus.runlooptest.R
 import com.launchmode.artus.runlooptest.databinding.InfoRssLayoutBinding
 import com.launchmode.artus.runlooptest.model.RssEntry
 import com.launchmode.artus.runlooptest.viewmodel.RssDetailViewModel
+import com.launchmode.artus.runlooptest.viewmodel.RssDetailViewModelFactory
 
 
 class RssDetailActivity : AppCompatActivity() {
@@ -24,7 +26,9 @@ class RssDetailActivity : AppCompatActivity() {
         title = rssEntry.title
 
         val binding = DataBindingUtil.setContentView<InfoRssLayoutBinding>(this, R.layout.info_rss_layout)
-        detailViewModel = RssDetailViewModel(application, rssEntry)
+        detailViewModel = ViewModelProviders.of(this,
+                RssDetailViewModelFactory.getInstance(application, rssEntry)
+        ).get(RssDetailViewModel::class.java)
         binding.viewModel = detailViewModel
     }
 
