@@ -1,17 +1,20 @@
-package com.launchmode.artus.runlooptest
+package com.launchmode.artus.runlooptest.view
 
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import com.launchmode.artus.runlooptest.view.InfoFragment
-import com.launchmode.artus.runlooptest.view.RssFragment
+import com.launchmode.artus.runlooptest.R
+import com.launchmode.artus.runlooptest.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,12 +27,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java!!)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
+        val fr = when (viewModel.indexFragment) {
+            0 -> InfoFragment()
+            1 -> RssFragment()
+            else -> {
+                throw IllegalArgumentException("Index ${viewModel.indexFragment} " +
+                        "of fragment not exists")
+            }
+        }
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_main, InfoFragment(), "fragment")
+                .replace(R.id.fragment_main, fr, "fragment")
                 .commit()
         nav_view.setCheckedItem(R.id.nav_info)
     }
@@ -49,11 +61,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_main, InfoFragment(), "fragment")
                         .commit()
+                viewModel.indexFragment = 0
             }
             R.id.nav_rss -> {
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_main, RssFragment(), "fragment")
                         .commit()
+                viewModel.indexFragment = 1
             }
         }
 

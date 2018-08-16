@@ -28,6 +28,8 @@ class RssService private constructor() {
 
     var delegate: RssServiceCallback? = null
 
+    var isDestroyed: Boolean = false
+        private set
     /**
      * A new instance of bussiness data
      */
@@ -137,6 +139,8 @@ class RssService private constructor() {
         businessTimer.destroy()
         entertainmentTimer.destroy()
         environnementTimer.destroy()
+        isDestroyed = true
+
 
     }
 

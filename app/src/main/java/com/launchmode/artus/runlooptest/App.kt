@@ -21,10 +21,10 @@ class App : Application() {
 
     val rssService: RssService
         get() {
-        if ( _rssService == null){
-            _rssService = RssService.create()
+            if (_rssService == null || _rssService!!.isDestroyed) {
+                _rssService = RssService.create()
+            }
+            return _rssService!!
         }
-        return _rssService!!
-    }
 
 }
