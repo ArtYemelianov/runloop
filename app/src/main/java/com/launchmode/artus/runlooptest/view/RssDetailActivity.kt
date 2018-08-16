@@ -40,4 +40,9 @@ class RssDetailActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        RssDetailViewModelFactory.destroyInstance()
+    }
 }

@@ -43,7 +43,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_main, fr, "fragment")
                 .commit()
-        nav_view.setCheckedItem(R.id.nav_info)
+        val item = if (viewModel.indexFragment == 0) R.id.nav_info else R.id.nav_rss
+        nav_view.setCheckedItem(item)
     }
 
     override fun onBackPressed() {
