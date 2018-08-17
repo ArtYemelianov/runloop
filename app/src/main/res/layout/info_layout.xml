@@ -33,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_margin="20dp"
+            android:text="@{infoViewModel.date}"
             app:layout_constraintLeft_toLeftOf="@+id/info_root_layout"
             app:layout_constraintRight_toRightOf="@+id/info_root_layout"
             app:layout_constraintTop_toBottomOf="@id/info_name" />
@@ -42,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:text="@{infoViewModel.selectedItem}"
             app:layout_constraintLeft_toLeftOf="@+id/info_root_layout"
             app:layout_constraintRight_toRightOf="@+id/info_root_layout"
             app:layout_constraintTop_toBottomOf="@id/info_date" />

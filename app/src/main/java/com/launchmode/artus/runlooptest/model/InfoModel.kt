@@ -3,14 +3,7 @@ package com.launchmode.artus.runlooptest.model
 import android.arch.lifecycle.MutableLiveData
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemClock
 import com.launchmode.artus.runlooptest.scheduler.RepeatTimer
-import com.launchmode.artus.runlooptest.scheduler.RequestRepeatTimer
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledFuture
-import java.util.concurrent.TimeUnit
 
 /**
  * Info model
