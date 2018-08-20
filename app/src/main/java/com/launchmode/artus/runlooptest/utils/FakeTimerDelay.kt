@@ -1,10 +1,8 @@
-package com.launchmode.artus.runlooptest.data
+package com.launchmode.artus.runlooptest.utils
 
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
-import android.support.annotation.MainThread
-import com.launchmode.artus.runlooptest.utils.Utils
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit

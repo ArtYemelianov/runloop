@@ -7,11 +7,14 @@ class RssEntry() : Parcelable {
 
     lateinit var title: String
     lateinit var description: String
-    lateinit var date: String
+    var date: Long = 0
 
-    constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readString())
+    constructor(parcel: Parcel) : this(
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readLong())
 
-    constructor(title: String, description: String, date: String) : this() {
+    constructor(title: String, description: String, date: Long) : this() {
         this.title = title
         this.description = description
         this.date = date
@@ -20,7 +23,7 @@ class RssEntry() : Parcelable {
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(title)
         parcel.writeString(description)
-        parcel.writeString(date)
+        parcel.writeLong(date)
     }
 
     override fun describeContents(): Int {

@@ -22,7 +22,7 @@
 package com.launchmode.artus.runlooptest.databinding;
 
 /**
- * Created by Gregory Rasmussen on 7/26/17.
+ * Created by Artus
  */
 public class AppDataBindingComponent implements android.databinding.DataBindingComponent {
     @Override

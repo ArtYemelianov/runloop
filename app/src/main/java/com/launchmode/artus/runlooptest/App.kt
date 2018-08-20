@@ -2,12 +2,12 @@ package com.launchmode.artus.runlooptest
 
 import android.app.Application
 import android.databinding.DataBindingUtil
-import com.launchmode.artus.runlooptest.data.RssService
+import com.launchmode.artus.runlooptest.datasource.webservice.RssService
 import com.launchmode.artus.runlooptest.databinding.AppDataBindingComponent
 
 
 /**
- * Created by Gregory Rasmussen on 7/26/17.
+ * Created by Artus
  */
 class App : Application() {
 

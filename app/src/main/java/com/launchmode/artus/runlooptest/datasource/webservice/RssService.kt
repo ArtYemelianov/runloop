@@ -1,8 +1,9 @@
-package com.launchmode.artus.runlooptest.data
+package com.launchmode.artus.runlooptest.datasource.webservice
 
 import com.launchmode.artus.runlooptest.model.RssEntry
 import com.launchmode.artus.runlooptest.scheduler.RepeatTimer
 import com.launchmode.artus.runlooptest.scheduler.RequestRepeatTimer
+import com.launchmode.artus.runlooptest.utils.FakeTimerDelay
 import com.launchmode.artus.runlooptest.utils.Utils
 import java.util.concurrent.atomic.AtomicInteger
 

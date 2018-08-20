@@ -2,9 +2,7 @@ package com.launchmode.artus.runlooptest.model
 
 import android.arch.lifecycle.MutableLiveData
 import com.launchmode.artus.runlooptest.App
-import com.launchmode.artus.runlooptest.data.RssService
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledFuture
+import com.launchmode.artus.runlooptest.datasource.webservice.RssService
 
 class RssModel(app: App) {
 
