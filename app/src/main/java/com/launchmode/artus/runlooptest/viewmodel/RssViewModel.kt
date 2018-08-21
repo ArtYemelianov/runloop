@@ -26,7 +26,7 @@ class RssViewModel(application: Application) : AndroidViewModel(application) {
         currentTab.set(0)
         businessNewsAdapter.set(RssAdapter())
         otherNewsAdapter.set(RssAdapter())
-
+        service.start(5000)
     }
 
     /**
@@ -45,8 +45,6 @@ class RssViewModel(application: Application) : AndroidViewModel(application) {
         service.isLoading.observe(lifecycleOwner, Observer<Boolean> {
             isLoading.set(it!!)
         })
-
-        service.start(5000)
 
     }
 

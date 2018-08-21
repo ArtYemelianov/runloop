@@ -17,7 +17,7 @@ class App : Application() {
 
     private var _rssRepository: RssRepository? = null
     private val _webService: WebService by lazy { WebService() }
-    private val _storage: IRssStorage by lazy { RssRuntimeStorage() }
+    private val _storage: IRssStorage by lazy { RssRuntimeStorage(appExecutors) }
     private val _appExecutors: AppExecutors by lazy { AppExecutors() }
 
     override fun onCreate() {

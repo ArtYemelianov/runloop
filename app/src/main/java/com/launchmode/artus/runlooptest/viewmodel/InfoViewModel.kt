@@ -26,7 +26,7 @@ class InfoViewModel : ViewModel() {
         model.date.observe(lifecycle, Observer<Long> {
             // VM can partially be responsibility for interaction logic Model and View,
             // but not always
-            val currentDate = SimpleDateFormat("formatDate/M/yyyy hh:mm:ss")
+            val currentDate = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
             date.set(currentDate.format(Date(it!!)))
         })
 

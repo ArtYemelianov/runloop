@@ -18,10 +18,10 @@ class RssDetailViewModel(app: Application, data: RssEntry) : AndroidViewModel(ap
 
     var title: String = rssData.get()?.title ?: "Title"
     var description: String = rssData.get()!!.description
-    val date: String = formatDate()
+    val date: String
+        get() {
+            val currentDate = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+            return currentDate.format(Date(rssData.get()!!.date))
+        }
 
-    fun formatDate(): String {
-        val currentDate = SimpleDateFormat("formatDate/M/yyyy hh:mm:ss")
-        return currentDate.format(Date(rssData.get()!!.date))
-    }
 }

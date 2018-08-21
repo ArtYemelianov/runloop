@@ -25,8 +25,8 @@ class RequestRepeatTimer(private val url: String,
 
 
     override fun execute() {
-        val data = repository.getRss(url)
         mHandler.post {
+            val data = repository.getRss(url)
             _result.addSource(data) {
                 _result.removeSource(data)
                 _result.value = it
