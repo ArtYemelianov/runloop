@@ -4,22 +4,19 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.support.annotation.MainThread
 import android.support.annotation.WorkerThread
-import com.artus.rssreader.Article
-import com.launchmode.artus.runlooptest.datasource.webservice.Parser
 import com.launchmode.artus.runlooptest.datasource.webservice.Resource
 import com.launchmode.artus.runlooptest.utils.AppExecutors
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import java.io.IOException
 
 /**
  * Created by Artus
+ * It retrieves data from sources and manages it
  */
 abstract class NetworkBoundResource<T>(private val url: String,
                                        private val appExecutors: AppExecutors) {
 
     private val result = MediatorLiveData<Resource<T>>()
-    private val mClient = OkHttpClient()
+
 
     init {
         result.value = Resource.loading(null)
@@ -37,7 +34,7 @@ abstract class NetworkBoundResource<T>(private val url: String,
         appExecutors.networkIO().execute {
 
             try {
-                val response = execute()
+                val response = makefetch()
                 if (response != null) {
                     appExecutors.diskIO().execute {
                         saveNetworkResult(response!!)
@@ -67,28 +64,15 @@ abstract class NetworkBoundResource<T>(private val url: String,
         }
     }
 
-    /**
-     * Retrieves newest data from server
-     */
-    private fun execute(): T? {
-        val request = Request.Builder()
-                .url(url)
-                .build()
-        val response = mClient.newCall(request).execute()
-        val body = response.body()?.string() ?: return null
-        val list = Parser(body!!).parse() ?: return null
-        return convert(list)
-    }
-
     fun asLiveData(): LiveData<Resource<T>> = result
-
-    @WorkerThread
-    protected abstract fun convert(data: List<Article>): T
 
     @WorkerThread
     protected abstract fun saveNetworkResult(data: T)
 
     @MainThread
     protected abstract fun loadFromDatabase(): LiveData<T>
+
+    @WorkerThread
+    protected abstract fun makefetch(): T?
 
 }

@@ -1,4 +1,4 @@
-package com.launchmode.artus.runlooptest.datasource.webservice
+package com.launchmode.artus.runlooptest.utils
 
 import com.artus.rssreader.Article
 import com.artus.rssreader.XMLParser

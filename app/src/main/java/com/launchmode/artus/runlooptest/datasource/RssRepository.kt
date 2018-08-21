@@ -1,35 +1,34 @@
 package com.launchmode.artus.runlooptest.datasource
 
 import android.arch.lifecycle.LiveData
-import com.artus.rssreader.Article
-import com.launchmode.artus.runlooptest.datasource.runtime.RssRuntimeStorage
+import android.arch.lifecycle.MutableLiveData
+import com.launchmode.artus.runlooptest.datasource.runtime.IRssStorage
 import com.launchmode.artus.runlooptest.datasource.webservice.Resource
-import com.launchmode.artus.runlooptest.datasource.webservice.RssService
+import com.launchmode.artus.runlooptest.datasource.webservice.WebService
 import com.launchmode.artus.runlooptest.model.RssEntry
 import com.launchmode.artus.runlooptest.utils.AppExecutors
 
-open class RssRepository constructor(protected val rssService: RssService,
-                                     protected val restaurantsDao: RssRuntimeStorage,
+/**
+ * Class presents retrieving of Rss data
+ */
+open class RssRepository constructor(protected val webService: WebService,
+                                     protected val storage: IRssStorage,
                                      protected val appExecutors: AppExecutors) {
 
     fun getRss(url: String): LiveData<Resource<List<RssEntry>>> {
         return object : NetworkBoundResource<List<RssEntry>>(url, appExecutors) {
-            override fun saveNetworkResult(data: List<RssEntry>) {
 
+            override fun makefetch(): List<RssEntry>? {
+                return webService.execute()
+            }
+
+            override fun saveNetworkResult(data: List<RssEntry>) {
+                storage.insertRss(url, data)
             }
 
             override fun loadFromDatabase(): LiveData<List<RssEntry>> {
-                appExecutors.diskIO().execute {
-
-                }
-            }
-
-            override fun convert(data: List<Article>): List<RssEntry> {
-                return data.map { item ->
-                    RssEntry(item.title,
-                            item.description,
-                            item.pubDate.time)
-                }.toList()
+                //TODO load in DiskIO executor
+                return storage.queryRssByUrl(url) ?: MutableLiveData()
             }
 
         }.asLiveData()

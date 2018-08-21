@@ -1,7 +1,7 @@
 package com.launchmode.artus.runlooptest.scheduler
 
 import android.os.Looper
-import com.launchmode.artus.runlooptest.datasource.webservice.Parser
+import com.launchmode.artus.runlooptest.utils.Parser
 import com.launchmode.artus.runlooptest.model.RssEntry
 import okhttp3.OkHttpClient
 import okhttp3.Request
