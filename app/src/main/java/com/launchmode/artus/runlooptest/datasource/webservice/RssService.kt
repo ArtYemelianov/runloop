@@ -11,9 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger
 class RssService private constructor() {
 
     companion object {
-        const val URL_BUSSINESS_NEWS = "http://feeds.reuters.com/reuters/businessNews"
+        const val URL_BUSINESS_NEWS = "http://feeds.reuters.com/reuters/businessNews"
         const val URL_ENVIRONMENT = "http://feeds.reuters.com/reuters/environment"
-        const val URL_ENTERTAIMENT = "http://feeds.reuters.com/reuters/entertainment"
+        const val URL_ENTERTAINMENT = "http://feeds.reuters.com/reuters/entertainment"
 
         fun create(): RssService {
             return RssService()
@@ -32,7 +32,7 @@ class RssService private constructor() {
     var isDestroyed: Boolean = false
         private set
     /**
-     * A new instance of bussiness data
+     * A new instance of business data
      */
     val businessData: List<RssEntry>
         get() {
@@ -55,8 +55,8 @@ class RssService private constructor() {
     private val _environnementList: ArrayList<RssEntry> = ArrayList()
     private val _entertainmentList: ArrayList<RssEntry> = ArrayList()
 
-    private val businessTimer: RequestRepeatTimer  by lazy { createTimer(URL_BUSSINESS_NEWS) }
-    private val entertainmentTimer: RequestRepeatTimer by lazy { createTimer(URL_ENTERTAIMENT) }
+    private val businessTimer: RequestRepeatTimer  by lazy { createTimer(URL_BUSINESS_NEWS) }
+    private val entertainmentTimer: RequestRepeatTimer by lazy { createTimer(URL_ENTERTAINMENT) }
     private val environnementTimer: RequestRepeatTimer by lazy { createTimer(URL_ENVIRONMENT) }
 
     private val counter: AtomicInteger = AtomicInteger(0)

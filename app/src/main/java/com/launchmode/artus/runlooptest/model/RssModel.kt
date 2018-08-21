@@ -6,7 +6,7 @@ import com.launchmode.artus.runlooptest.datasource.webservice.RssService
 
 class RssModel(app: App) {
 
-    val bussinesNews: MutableLiveData<List<RssEntry>> = MutableLiveData()
+    val businessNews: MutableLiveData<List<RssEntry>> = MutableLiveData()
     var otherNews: MutableLiveData<List<RssEntry>> = MutableLiveData()
     var selectedItem: MutableLiveData<String> = MutableLiveData()
     var isLoading: MutableLiveData<Boolean> = MutableLiveData()
@@ -14,13 +14,13 @@ class RssModel(app: App) {
     private val service: RssService = app.rssService
 
     init {
-        bussinesNews.value = ArrayList()
+        businessNews.value = ArrayList()
         otherNews.value = ArrayList()
         isLoading.value = false
 
         service.delegate = object : RssService.Companion.RssServiceCallback {
             override fun onBusinessDataChanged(list: List<RssEntry>) {
-                bussinesNews.value = list
+                businessNews.value = list
             }
 
             override fun onOtherChanged(list: List<RssEntry>) {

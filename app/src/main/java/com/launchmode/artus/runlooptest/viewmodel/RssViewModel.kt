@@ -14,7 +14,7 @@ import com.launchmode.artus.runlooptest.view.RssAdapter
 class RssViewModel(application: Application) : AndroidViewModel(application) {
 
     var currentTab: ObservableInt = ObservableInt()
-    var businesNewsAdapter: ObservableField<RssAdapter> = ObservableField()
+    var businessNewsAdapter: ObservableField<RssAdapter> = ObservableField()
     var otherNewsAdapter: ObservableField<RssAdapter> = ObservableField()
     var isLoading: ObservableBoolean = ObservableBoolean()
 
@@ -22,7 +22,7 @@ class RssViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         currentTab.set(0)
-        businesNewsAdapter.set(RssAdapter())
+        businessNewsAdapter.set(RssAdapter())
         otherNewsAdapter.set(RssAdapter())
 
     }
@@ -32,8 +32,8 @@ class RssViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun subscribe(lifecycleOwner: LifecycleOwner) {
 
-        model.bussinesNews.observe(lifecycleOwner, Observer<List<RssEntry>> {
-            businesNewsAdapter.get()?.updateData(it)
+        model.businessNews.observe(lifecycleOwner, Observer<List<RssEntry>> {
+            businessNewsAdapter.get()?.updateData(it)
         })
 
         model.otherNews.observe(lifecycleOwner, Observer<List<RssEntry>> {
