@@ -10,6 +10,7 @@ import java.io.IOException
 
 /**
  * Created by Artus
+ *
  * It retrieves data from sources and manages it
  */
 abstract class NetworkBoundResource<T>(private val url: String,
@@ -34,7 +35,7 @@ abstract class NetworkBoundResource<T>(private val url: String,
         appExecutors.networkIO().execute {
 
             try {
-                val response = makefetch()
+                val response = makeFetch()
                 if (response != null) {
                     appExecutors.diskIO().execute {
                         saveNetworkResult(response!!)
@@ -73,6 +74,6 @@ abstract class NetworkBoundResource<T>(private val url: String,
     protected abstract fun loadFromDatabase(): LiveData<T>
 
     @WorkerThread
-    protected abstract fun makefetch(): T?
+    protected abstract fun makeFetch(): T?
 
 }

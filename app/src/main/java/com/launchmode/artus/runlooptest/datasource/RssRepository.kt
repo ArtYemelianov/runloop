@@ -18,8 +18,8 @@ open class RssRepository constructor(protected val webService: WebService,
     fun getRss(url: String): LiveData<Resource<List<RssEntry>>> {
         return object : NetworkBoundResource<List<RssEntry>>(url, appExecutors) {
 
-            override fun makefetch(): List<RssEntry>? {
-                return webService.execute()
+            override fun makeFetch(): List<RssEntry>? {
+                return webService.execute(url)
             }
 
             override fun saveNetworkResult(data: List<RssEntry>) {
@@ -28,7 +28,7 @@ open class RssRepository constructor(protected val webService: WebService,
 
             override fun loadFromDatabase(): LiveData<List<RssEntry>> {
                 //TODO load in DiskIO executor
-                return storage.queryRssByUrl(url) ?: MutableLiveData()
+                return storage.queryRssByUrl(url)
             }
 
         }.asLiveData()

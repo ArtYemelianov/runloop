@@ -17,7 +17,8 @@ class RssItemViewModel(data: RssEntry) : ViewModel() {
 
     var title: String = rssData.get()?.title ?: "Title"
     var description: String = rssData.get()?.description ?: "Description"
-    var date: String = rssData.get()?.date ?: "Date"
+    val date: String = "Date"
+    //TODO rssData.get()?.date ?:
 
     fun onItemClick(view: View) {
         print("Clicked")

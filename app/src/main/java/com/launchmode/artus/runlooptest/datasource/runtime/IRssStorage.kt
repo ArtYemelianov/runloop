@@ -8,7 +8,7 @@ interface IRssStorage {
     /**
      * Queries specific list by url
      */
-    fun queryRssByUrl(url: String): LiveData<List<RssEntry>>?
+    fun queryRssByUrl(url: String): LiveData<List<RssEntry>>
 
     /**
      * Insert Rss.

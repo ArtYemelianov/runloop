@@ -5,13 +5,13 @@ import com.launchmode.artus.runlooptest.utils.Parser
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-class WebService(private val url: String) {
+class WebService() {
 
     private val mClient = OkHttpClient()
     /**
      * Retrieves newest data from server
      */
-    fun execute(): List<RssEntry>? {
+    fun execute(url: String): List<RssEntry>? {
         val request = Request.Builder()
                 .url(url)
                 .build()

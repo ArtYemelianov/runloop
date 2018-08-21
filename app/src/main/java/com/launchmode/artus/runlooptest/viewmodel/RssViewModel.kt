@@ -7,8 +7,9 @@ import android.arch.lifecycle.Observer
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
+import com.launchmode.artus.runlooptest.App
+import com.launchmode.artus.runlooptest.datasource.webservice.RssService
 import com.launchmode.artus.runlooptest.model.RssEntry
-import com.launchmode.artus.runlooptest.model.RssModel
 import com.launchmode.artus.runlooptest.view.RssAdapter
 
 class RssViewModel(application: Application) : AndroidViewModel(application) {
@@ -18,7 +19,8 @@ class RssViewModel(application: Application) : AndroidViewModel(application) {
     var otherNewsAdapter: ObservableField<RssAdapter> = ObservableField()
     var isLoading: ObservableBoolean = ObservableBoolean()
 
-    val model = RssModel(getApplication())
+    private val app: App = getApplication()
+    private val service = RssService(app.storage, app.rssRepository, app.appExecutors)
 
     init {
         currentTab.set(0)
@@ -32,17 +34,20 @@ class RssViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun subscribe(lifecycleOwner: LifecycleOwner) {
 
-        model.businessNews.observe(lifecycleOwner, Observer<List<RssEntry>> {
+        service.business.observe(lifecycleOwner, Observer<List<RssEntry>> {
             businessNewsAdapter.get()?.updateData(it)
         })
 
-        model.otherNews.observe(lifecycleOwner, Observer<List<RssEntry>> {
+        service.other.observe(lifecycleOwner, Observer<List<RssEntry>> {
             otherNewsAdapter.get()?.updateData(it)
         })
 
-        model.isLoading.observe(lifecycleOwner, Observer<Boolean> {
+        service.isLoading.observe(lifecycleOwner, Observer<Boolean> {
             isLoading.set(it!!)
         })
+
+        service.start(5000)
+
     }
 
     fun onTabChanged(id: String) {
@@ -50,6 +55,6 @@ class RssViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     override fun onCleared() {
-        model.clear()
+        service.stop()
     }
 }
