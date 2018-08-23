@@ -1,20 +1,16 @@
 package com.launchmode.artus.runlooptest.datasource.webservice
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
-import android.view.View
-import android.widget.Toast
+import android.util.Log
 import com.launchmode.artus.runlooptest.datasource.RssRepository
 import com.launchmode.artus.runlooptest.datasource.runtime.IRssStorage
 import com.launchmode.artus.runlooptest.model.RssEntry
-import com.launchmode.artus.runlooptest.scheduler.RepeatTimer
 import com.launchmode.artus.runlooptest.scheduler.RequestRepeatTimer
 import com.launchmode.artus.runlooptest.utils.AppExecutors
 import com.launchmode.artus.runlooptest.utils.FakeTimerDelay
 import com.launchmode.artus.runlooptest.utils.ResourceObserver
-import com.launchmode.artus.runlooptest.utils.Utils
 import java.util.concurrent.atomic.AtomicInteger
 
 
@@ -34,21 +30,29 @@ class RssService(private val storage: IRssStorage,
     val errorMessage: MutableLiveData<String> = MutableLiveData()
 
     private val _other: MediatorLiveData<List<RssEntry>> = MediatorLiveData()
+    private val mediatorObserver = Observer<List<RssEntry>> {
+        other.value = otherData
+    }
+    private val businessObserver = Observer<List<RssEntry>> {
+        business.value = it
+    }
+
+    private val resourceObserver = ResourceObserver<List<RssEntry>>("RestaurantsMapActivity",
+            hideLoading = ::hideLoading,
+            showLoading = ::showLoading,
+            onSuccess = null,
+            onError = ::showErrorMessage)
 
     init {
-        storage.queryRssByUrl(URL_BUSINESS_NEWS).observeForever {
-            appExecutors.mainThread().execute {
-                business.value = it
-            }
+        storage.queryRssByUrl(URL_BUSINESS_NEWS).observeForever(businessObserver)
+
+        val callback = Observer<List<RssEntry>> {
+            _other.value = it
         }
 
-        val callback: Observer<List<RssEntry>> = Observer {
-            other.value = otherData
-        }
-        _other.addSource(storage.queryRssByUrl(URL_ENVIRONMENT), callback)
         _other.addSource(storage.queryRssByUrl(URL_ENTERTAINMENT), callback)
-
-
+        _other.addSource(storage.queryRssByUrl(URL_ENVIRONMENT), callback)
+        _other.observeForever(mediatorObserver)
     }
 
 
@@ -58,28 +62,27 @@ class RssService(private val storage: IRssStorage,
     private val otherData: List<RssEntry>
         get() {
             val list = ArrayList<RssEntry>()
-            list.addAll(storage.queryRssByUrl(URL_ENVIRONMENT).value!!)
-            list.addAll(storage.queryRssByUrl(URL_ENTERTAINMENT).value!!)
+            list.addAll(storage.queryRssByUrl(URL_ENVIRONMENT).value ?: emptyList())
+            list.addAll(storage.queryRssByUrl(URL_ENTERTAINMENT).value ?: emptyList())
             return list
         }
 
 
     private val businessTimer: RequestRepeatTimer  by lazy {
         val timer = createTimer(URL_BUSINESS_NEWS)
-        val onSuccess: (data: List<RssEntry>) -> Unit = {
-            print("onSuccess for business $it")
-            //do nothing
-        }
-        val observer = ResourceObserver("RestaurantsMapActivity",
-                hideLoading = ::hideLoading,
-                showLoading = ::showLoading,
-                onSuccess = onSuccess,
-                onError = ::showErrorMessage)
-        timer.result.observeForever(observer)
+        timer.result.observeForever(resourceObserver)
         timer
     }
-    private val entertainmentTimer: RequestRepeatTimer by lazy { createTimer(URL_ENTERTAINMENT) }
-    private val environnementTimer: RequestRepeatTimer by lazy { createTimer(URL_ENVIRONMENT) }
+    private val entertainmentTimer: RequestRepeatTimer by lazy {
+        val timer = createTimer(URL_ENVIRONMENT)
+        timer.result.observeForever(resourceObserver)
+        timer
+    }
+    private val environnementTimer: RequestRepeatTimer by lazy {
+        val timer = createTimer(URL_ENTERTAINMENT)
+        timer.result.observeForever(resourceObserver)
+        timer
+    }
 
     private val counter: AtomicInteger = AtomicInteger(0)
     private val fakeTimer = FakeTimerDelay()
@@ -130,6 +133,17 @@ class RssService(private val storage: IRssStorage,
         businessTimer.destroy()
         entertainmentTimer.destroy()
         environnementTimer.destroy()
+
+        _other.removeSource(storage.queryRssByUrl(URL_ENTERTAINMENT))
+        _other.removeSource(storage.queryRssByUrl(URL_ENVIRONMENT))
+        _other.removeObserver(mediatorObserver)
+        storage.queryRssByUrl(URL_ENVIRONMENT).removeObserver(businessObserver)
+
+        businessTimer.result.removeObserver(resourceObserver)
+        entertainmentTimer.result.removeObserver(resourceObserver)
+        environnementTimer.result.removeObserver(resourceObserver)
+
+
     }
 
     private fun showErrorMessage(error: String) {

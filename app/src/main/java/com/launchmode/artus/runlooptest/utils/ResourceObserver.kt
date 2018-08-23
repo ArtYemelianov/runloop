@@ -7,7 +7,7 @@ import com.launchmode.artus.runlooptest.datasource.webservice.Resource
 class ResourceObserver<T>(private val tag: String,
                           private val hideLoading: () -> Unit,
                           private val showLoading: () -> Unit,
-                          private val onSuccess: (data: T) -> Unit,
+                          private val onSuccess: ((data: T) -> Unit)?,
                           private val onError: (message: String) -> Unit) : Observer<Resource<T>> {
 
     override fun onChanged(resource: Resource<T>?) {
@@ -16,7 +16,7 @@ class ResourceObserver<T>(private val tag: String,
                 hideLoading()
                 if (resource.data != null) {
                     Log.d(tag, "observer -> SUCCESS, ${resource.data} items")
-                    onSuccess(resource.data)
+                    onSuccess ?: (resource.data)
                 }
             }
             Resource.Status.ERROR -> {
