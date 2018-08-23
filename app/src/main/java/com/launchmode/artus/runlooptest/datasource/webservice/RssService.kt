@@ -97,7 +97,7 @@ class RssService(private val storage: IRssStorage,
     }
 
     private fun createTimer(url: String): RequestRepeatTimer {
-        return RequestRepeatTimer(url, repository, null)
+        return RequestRepeatTimer(url, repository)
     }
 
     private fun checkAndEmitStatusLoading(status: Boolean) {

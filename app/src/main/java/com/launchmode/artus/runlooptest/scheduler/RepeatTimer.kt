@@ -9,17 +9,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Base Repeat timer
  */
-abstract class RepeatTimer(val cycleDelegate: TaskCycleCallback?) {
-
-    companion object {
-        interface TaskCycleCallback {
-            /**
-             * Handles cycle of task changed
-             * @param status If true - task started. Otherwise - stopped
-             */
-            fun onChange(status: Boolean)
-        }
-    }
+abstract class RepeatTimer {
 
     private var future: ScheduledFuture<*>? = null
     private val scheduler = Executors.newSingleThreadScheduledExecutor()
@@ -34,9 +24,7 @@ abstract class RepeatTimer(val cycleDelegate: TaskCycleCallback?) {
         stop()
 
         scheduler.scheduleWithFixedDelay({
-            sendCallback(true)
             execute()
-            sendCallback(false)
         }, 0, interval, TimeUnit.MILLISECONDS)
 
     }
@@ -56,21 +44,6 @@ abstract class RepeatTimer(val cycleDelegate: TaskCycleCallback?) {
 
     fun destroy() {
         stop()
-//        scheduler.shutdownNow()
-    }
-
-
-    /**
-     * Sends result into main thread
-     */
-    private fun sendCallback(cycle: Boolean) {
-        if (Thread.currentThread().id == Looper.getMainLooper().thread.id) {
-            cycleDelegate?.onChange(cycle)
-        } else {
-            mHandler.post({
-                cycleDelegate?.onChange(cycle)
-            })
-        }
     }
 
 }

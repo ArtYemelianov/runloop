@@ -16,7 +16,7 @@ class InfoModel {
     private val handler: Handler = Handler(Looper.getMainLooper())
 
     private val timer: RepeatTimer by lazy {
-        object : RepeatTimer(null) {
+        object : RepeatTimer() {
             override fun execute() {
                 handler.post { updateDate() }
             }

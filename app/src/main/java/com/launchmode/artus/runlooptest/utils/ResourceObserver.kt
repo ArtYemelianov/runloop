@@ -13,14 +13,14 @@ class ResourceObserver<T>(private val tag: String,
     override fun onChanged(resource: Resource<T>?) {
         when (resource?.status) {
             Resource.Status.SUCCESS -> {
-                hideLoading()
+//                hideLoading()
                 if (resource.data != null) {
                     Log.d(tag, "observer -> SUCCESS, ${resource.data} items")
                     onSuccess ?: (resource.data)
                 }
             }
             Resource.Status.ERROR -> {
-                hideLoading()
+//                hideLoading()
                 if (resource.message != null) {
                     Log.d(tag, "observer -> ERROR, ${resource.message}")
                     onError(resource.message)
