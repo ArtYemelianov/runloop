@@ -14,6 +14,7 @@ abstract class RepeatTimer {
     private var future: ScheduledFuture<*>? = null
     private val scheduler = Executors.newSingleThreadScheduledExecutor()
     protected val mHandler = Handler(Looper.getMainLooper())
+    private var interval: Long = 1000L
 
     /**
      * Starts scheduler. <br>
@@ -22,11 +23,14 @@ abstract class RepeatTimer {
      */
     fun start(interval: Long) {
         stop()
+        this.interval = interval
+        execute()
+    }
 
-        scheduler.scheduleWithFixedDelay({
+    protected fun nextSchedule() {
+        scheduler.schedule({
             execute()
-        }, 0, interval, TimeUnit.MILLISECONDS)
-
+        }, interval, TimeUnit.MILLISECONDS)
     }
 
     /**

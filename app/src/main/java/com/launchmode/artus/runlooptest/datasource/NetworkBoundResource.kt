@@ -26,7 +26,6 @@ abstract class NetworkBoundResource<T>(private val url: String,
             // we get here actual value from database
             result.removeSource(dbSource)
             fetchFromNetwork(dbSource)
-            result.setValue(Resource.success(data))
         }
     }
 

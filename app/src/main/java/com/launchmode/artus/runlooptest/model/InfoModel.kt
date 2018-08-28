@@ -18,7 +18,10 @@ class InfoModel {
     private val timer: RepeatTimer by lazy {
         object : RepeatTimer() {
             override fun execute() {
-                handler.post { updateDate() }
+                handler.post {
+                    updateDate()
+                    nextSchedule()
+                }
             }
         }
     }
