@@ -31,7 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Marco Gomiero on 12/02/2015.
+ * Created by Marco Gomiero, Artus
  */
 
 public class XMLParser {

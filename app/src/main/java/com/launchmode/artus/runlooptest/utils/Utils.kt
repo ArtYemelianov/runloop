@@ -1,8 +1,10 @@
 package com.launchmode.artus.runlooptest.utils
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Looper
 
-class Utils {
+class Utils constructor(private val context: Context) {
 
     companion object {
         fun fatalErrorIfNotMainThread() {
@@ -12,5 +14,11 @@ class Utils {
                 throw exc
             }
         }
+    }
+
+    fun hasConnection(): Boolean {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isAvailable && activeNetwork.isConnected
     }
 }

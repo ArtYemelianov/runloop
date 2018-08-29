@@ -31,7 +31,7 @@ import com.launchmode.artus.runlooptest.model.RssEntry;
 import java.util.List;
 
 /**
- * Created by Gregory Rasmussen on 7/26/17.
+ * Created by Artus
  */
 public class RecyclerViewDataBinding {
     /**

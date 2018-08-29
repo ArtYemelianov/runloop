@@ -3,8 +3,9 @@ package com.launchmode.artus.runlooptest.viewmodel
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.databinding.ObservableField
-import android.view.View
 import com.launchmode.artus.runlooptest.model.RssEntry
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RssDetailViewModel(app: Application, data: RssEntry) : AndroidViewModel(app) {
 
@@ -17,5 +18,10 @@ class RssDetailViewModel(app: Application, data: RssEntry) : AndroidViewModel(ap
 
     var title: String = rssData.get()?.title ?: "Title"
     var description: String = rssData.get()!!.description
-    var date: String = rssData.get()!!.date
+    val date: String
+        get() {
+            val currentDate = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+            return currentDate.format(Date(rssData.get()!!.date))
+        }
+
 }

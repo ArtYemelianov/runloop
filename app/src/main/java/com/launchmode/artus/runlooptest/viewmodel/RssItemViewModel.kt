@@ -4,6 +4,8 @@ import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
 import android.view.View
 import com.launchmode.artus.runlooptest.model.RssEntry
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RssItemViewModel(data: RssEntry) : ViewModel() {
 
@@ -14,10 +16,13 @@ class RssItemViewModel(data: RssEntry) : ViewModel() {
         rssData.set(data)
     }
 
-
     var title: String = rssData.get()?.title ?: "Title"
     var description: String = rssData.get()?.description ?: "Description"
-    var date: String = rssData.get()?.date ?: "Date"
+    val date: String
+        get() {
+            val currentDate = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+            return currentDate.format(Date(rssData.get()!!.date))
+        }
 
     fun onItemClick(view: View) {
         print("Clicked")

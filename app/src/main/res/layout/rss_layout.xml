@@ -49,7 +49,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/list_1"
-                    app:adapter="@{rssViewModel.businesNewsAdapter}"
+                    app:adapter="@{rssViewModel.businessNewsAdapter}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     />

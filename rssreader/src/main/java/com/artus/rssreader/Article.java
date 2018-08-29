@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Marco Gomiero on 12/02/2015.
+ * Created by Marco Gomiero, Artus
  */
 public class Article {
 

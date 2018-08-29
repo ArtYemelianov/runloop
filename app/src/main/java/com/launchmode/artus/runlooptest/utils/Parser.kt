@@ -1,4 +1,4 @@
-package com.launchmode.artus.runlooptest.data
+package com.launchmode.artus.runlooptest.utils
 
 import com.artus.rssreader.Article
 import com.artus.rssreader.XMLParser
@@ -17,8 +17,7 @@ internal class Parser(private val str: String) {
     fun parse(): List<Article>? {
 
         try {
-            val list = _xmlParser.parseXML(str)
-            return list
+            return _xmlParser.parseXML(str)
         } catch (e: Exception) {
             e.printStackTrace()
             return null

@@ -41,7 +41,7 @@ class RssFragment : Fragment() {
             intent.putExtra("entry", it!!)
             activity.startActivity(intent)
         }
-        rssViewModel.businesNewsAdapter.get()!!.clicked.observe(this, callback)
+        rssViewModel.businessNewsAdapter.get()!!.clicked.observe(this, callback)
         rssViewModel.otherNewsAdapter.get()!!.clicked.observe(this, callback)
     }
 
